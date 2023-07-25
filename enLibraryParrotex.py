@@ -25,6 +25,7 @@ import isbnlib as isbn
 import PySimpleGUI as sg
 from requests import get
 import re
+from time import sleep
 
 
 # Parrot icon in Base64
@@ -37,9 +38,8 @@ IDS = {}
 CARDS = {}
 HELP = ""
 SORT = 0
-
-# Sets GUI theme
-sg.theme("DarkGreen")
+LAST_LOC = ""
+VERSION = "1.1"
 
 # Creates necessary files on first launch
 try:
@@ -302,10 +302,13 @@ def undo(type: str) -> None:
 def add() -> None:
     """
     Makes it possible to add new book records.
+    @ LAST_LOC
 
-    - Preloads data from ISBN code and databazeknih.cz record.
+    - Preloads data from ISBN code and openlibrary.org record.
     - Lets the user add other data manually.
     """
+    global LAST_LOC
+
     con = False
     err = ""
     inISBN = ""
@@ -315,7 +318,7 @@ def add() -> None:
         "Author": "",
         "Title": "",
         "Genre": "",
-        "Location": "",
+        "Location": LAST_LOC,
         "State": "L"
     }
 
@@ -404,6 +407,7 @@ def add() -> None:
             r["Title"] = aVal["title"].replace(",", ";")
             r["Genre"] = aVal["genre"].replace(",", ";")
             r["Location"] = aVal["location"].replace(",", ";")
+            LAST_LOC = r["Location"]
 
         if aEv == "Search":
             webbrowser.open(url=("https://openlibrary.org/search?q="
@@ -481,32 +485,34 @@ def search() -> None:
         if sEv is None or sEv == "Cancel":
             break
         else:
-            par = [sVal["zero"], sVal["one"], sVal["two"]]
+            par = [sVal["zero"].lower(),
+                   sVal["one"].lower(),
+                   sVal["two"].lower()]
 
         if sEv == "Search":
             res = []
 
             if par[0] != "":
                 for i in ROWS:
-                    if par[0] in i[4]:
+                    if par[0] in i[4].lower():
                         res.append(i)
             if par[1] != "":
                 if res != []:
                     for i in res:
-                        if par[1] not in i[2]:
+                        if par[1] not in i[2].lower():
                             res.pop(i)
                 else:
                     for i in ROWS:
-                        if par[1] in i[2]:
+                        if par[1] in i[2].lower():
                             res.append(i)
             if par[2] != "":
                 if res != []:
                     for i in res:
-                        if par[2] not in i[3]:
+                        if par[2] not in i[3].lower():
                             res.pop(i)
                 else:
                     for i in ROWS:
-                        if par[2] in i[3]:
+                        if par[2] in i[3].lower():
                             res.append(i)
 
             num = len(res)
@@ -643,9 +649,9 @@ def cards() -> None:
                         err = ("Error: You can't delete a card "
                                + "with borrowed books.")
                     else:
-                        ans = sg.PopupOKCancel(("Are you sure you want to "
-                                                + "delete the selected card?"))
-                        if ans == "OK":
+                        ans = sg.PopupYesNo(("Are you sure you want to "
+                                             + "delete the selected card?"))
+                        if ans == "Yes":
                             CARDS["LIST"].remove(name)
                             CARDS.pop(name)
                             save("c")
@@ -723,9 +729,9 @@ def edit(row: int) -> None:
                                  + "&mode=everything"))
         if eEv == "Delete":
             if r[6] == "L":
-                ans = sg.PopupOKCancel("Are you sure you want "
-                                       + "to delete this book?")
-                if ans == "OK":
+                ans = sg.PopupYesNo("Are you sure you want "
+                                    + "to delete this book?")
+                if ans == "Yes":
                     ROWS.pop(row)
                     save("b")
 
@@ -760,6 +766,49 @@ def edit(row: int) -> None:
             else:
                 err = "Error: All details must be filled in."
 
+
+# Sets splash screen GUI theme
+sg.theme("DarkGreen4")
+
+# Splash screen
+spLO = [[sg.P(),
+         sg.T("Library Parrotex"),
+         sg.P()],
+        [sg.P(),
+         sg.Image(ICON),
+         sg.P()],
+        [sg.T("v" + VERSION),
+         sg.P(),
+         sg.T("by F_TEK")]]
+spWin = sg.Window("",
+                  spLO,
+                  no_titlebar=True,
+                  disable_close=True,
+                  disable_minimize=True,
+                  keep_on_top=True)
+spWin.read(1500)
+spWin.close()
+
+# Update check
+_tries = 0
+while _tries < 3:
+    _ver = get("https://raw.githubusercontent.com/"
+               + "FTEdianiaK/library-parrotex/main/VERSION")
+    if _ver.status_code == 200:
+        if VERSION != _ver.text:
+            ans = sg.PopupYesNo("New version is available.\n"
+                                + "Would you like to open"
+                                + "the developer's website?")
+            if ans == "Yes":
+                webbrowser.open("https://github.com/FTEdianiaK/"
+                                + "library-parrotex/releases/latest")
+        _tries = 4
+    else:
+        _tries += 1
+        sleep(0.5)
+
+# Sets main GUI theme
+sg.theme("DarkGreen")
 
 # Main loop
 while True:
