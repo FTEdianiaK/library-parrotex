@@ -23,7 +23,7 @@ from json import dump as jdump
 from json import load as jload
 import isbnlib as isbn
 import PySimpleGUI as sg
-from requests import get
+import requests
 import re
 from time import sleep
 
@@ -39,7 +39,7 @@ CARDS = {}
 HELP = ""
 SORT = 0
 LAST_LOC = ""
-VERSION = "1.1"
+VERSION = "2.0"
 
 # Creates necessary files on first launch
 try:
@@ -223,7 +223,7 @@ def save(type: str) -> None:
 def undo(type: str) -> None:
     """
     Undoes one modification to selected file.
-    < Files
+    < File
 
     - Available files:
       - b - books.csv + ids.json
@@ -350,29 +350,43 @@ def add() -> None:
                 r["Author"] = "; ".join(author for author in _data["Authors"])
                 r["ISBN"] = inISBN
 
-                db = get(url=("https://openlibrary.org/isbn/"
-                              + inISBN), allow_redirects=True)
+                _a_tries = 0
+                g = ""
+                while _a_tries < 3:
+                    try:
+                        db = requests.get(url=("https://openlibrary.org/isbn/"
+                                               + inISBN), allow_redirects=True)
+                    except requests.exceptions.ConnectionError:
+                        _a_tries += 1
+                        sleep(0.5)
+                    else:
+                        if db.status_code == 200:
+                            db = db.text
 
-                if db.status_code == 200:
-                    db = db.text
+                            start = db.find("<h6>Subjects</h6>") + 18
+                            end = start + db[start:].find("</span>")
+                            db = db[start:end]
+                            db = db.replace("</a>,", "")
+                            db = db.replace("</a>", "")
+                            db = re.split(' *<.*">', db)
 
-                    start = db.find("<h6>Subjects</h6>") + 18
-                    end = start + db[start:].find("</span>")
-                    db = db[start:end]
-                    db = db.replace("</a>,", "")
-                    db = db.replace("</a>", "")
-                    db = re.split(' *<.*">', db)
+                            db.pop(0)
 
-                    db.pop(0)
+                            for i in db:
+                                g += i + "; "
 
-                    g = ""
-                    for i in db:
-                        g += i + "; "
+                            g = g[:-2]
+                            g = g.replace("&amp;", "&")
+                            g = g.replace("\n", "")
+                            g = g.replace(",", ";")
 
-                    g = g[:-2]
-                    g = g.replace("&amp;", "&")
-                    g = g.replace("\n", "")
-                    g = g.replace(",", ";")
+                            _a_tries = 4
+                        else:
+                            _a_tries += 1
+                            sleep(0.5)
+
+                if _a_tries == 3:
+                    sg.PopupError("Error: Couldn't load openlibrary.org")
 
                 r["Genre"] = g
 
@@ -790,22 +804,30 @@ spWin.read(1500)
 spWin.close()
 
 # Update check
-_tries = 0
-while _tries < 3:
-    _ver = get("https://raw.githubusercontent.com/"
-               + "FTEdianiaK/library-parrotex/main/VERSION")
-    if _ver.status_code == 200:
-        if VERSION != _ver.text:
-            ans = sg.PopupYesNo("New version is available.\n"
-                                + "Would you like to open"
-                                + "the developer's website?")
-            if ans == "Yes":
-                webbrowser.open("https://github.com/FTEdianiaK/"
-                                + "library-parrotex/releases/latest")
-        _tries = 4
-    else:
-        _tries += 1
+_up_tries = 0
+while _up_tries < 3:
+    try:
+        _ver = requests.get("https://raw.githubusercontent.com/"
+                            + "FTEdianiaK/library-parrotex/main/VERSION")
+    except requests.exceptions.ConnectionError:
+        _up_tries += 1
         sleep(0.5)
+    else:
+        if _ver.status_code == 200:
+            if VERSION != _ver.text:
+                ans = sg.PopupYesNo("New version is available.\n"
+                                    + "Would you like to open"
+                                    + "the developer's website?")
+                if ans == "Yes":
+                    webbrowser.open("https://github.com/FTEdianiaK/"
+                                    + "library-parrotex/releases/latest")
+            _up_tries = 4
+        else:
+            _up_tries += 1
+            sleep(0.5)
+
+if _up_tries == 3:
+    sg.PopupError("Error: Couldn't load github.com")
 
 # Sets main GUI theme
 sg.theme("DarkGreen")

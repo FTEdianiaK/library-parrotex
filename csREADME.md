@@ -22,22 +22,26 @@
 
 **Aktualizovat:**
 - Pro aktualizaci použijte stejné instrukce jako pro instalaci.
-- Je doporučené zálohovat si datové soubory (books.csv, cards.json, ids.json, help.txt) před aktualizací, poté je umísťete do stejné složky jako hlavní soubor.
+- Je doporučené zálohovat si datové soubory (knihy.csv, karty.json, kody.json, pomoc.txt) před aktualizací, poté je umísťete do stejné složky jako hlavní soubor.
 - Aktualizace je pouze potřeba, když se nejnovější verze neshoduje s tou, kterou používáte (to můžete zkontrolovat v úvodním obrázku).
 - **POZOR!** Pokud se první číslo nejnovější verze (v 1.4 je jím 1) neshoduje s tím, které používáte, je možné, že bude potřeba aktualizace i vašich datových souborů. Pro více informací o tomto nahlédněte do záznamu změn.
 
-**Smazat:** Použijte "unins000.exe" (pokud jste použili .exe průvodce instalací), poté smažte složku, ve které byl program naninstalován, abyste smazali i datové soubory zanechané programem (books.csv, cards.json, ids.json, help.txt), pokud si je neplánujete nechat.
+**Smazat:** Použijte "unins000.exe" (pokud jste použili .exe průvodce instalací), poté smažte složku, ve které byl program naninstalován, abyste smazali i datové soubory zanechané programem (knihy.csv, karty.json, kody.json, pomoc.txt), pokud si je neplánujete nechat.
 
 ### Známé chyby
-**Problém**: Některé speciální znaky mohou být vloženy špatně když jsou napsány pomocí klávesnice. (např. ě -> ì)<br>
+**[#3](https://github.com/FTEdianiaK/library-parrotex/issues/3)**: Některé speciální znaky mohou být vloženy špatně když jsou napsány pomocí klávesnice. (např. ě -> ì)<br>
 Zatím jsem nepřišel na důvod, proč se toto děje a budu více než vděčný za jakoukoliv pomoc s opravením tohoto problému.<br>
-**Dočasné řešení**: Zdá se, že dané znaky lze zadat zkopírováním a jsou poté zpracovány již správně.
+**Dočasné řešení**: Zdá se, že dané znaky lze zadat zkopírováním odjinud a ty jsou poté zpracovány správně.
 
 ### Zdroje
 [Papouščí ikona od uživatele Lorc z game-icons.net](https://game-icons.net/1x1/lorc/parrot-head.html)
 
-**Použité knihovny:**
-- [operator, webbrowser, csv, datetime, json, re, time - z Standardní Knihovny Python - PSF](https://docs.python.org/3/library/index.html)
+**Použité knihovny v kódu:**
+- [operator, webbrowser, csv, datetime, json, re, time - ze Standardní Knihovny Python - PSF](https://docs.python.org/3/library/index.html)
 - [isbnlib - od Alexandre Lima Conde - LGPLv3](https://pypi.org/project/isbnlib/)
 - [PySimpleGui - od PySimpleGui - LGPLv3+](https://pypi.org/project/PySimpleGUI/)
 - [requests - od Kenneth Reitz - Apache 2.0](https://pypi.org/project/requests/)
+
+**Další použité knihovny:**
+- [pyinstaller - od Hartmut Goebel, Giovanni Bajo, David Vierra, David Cortesi, Martin Zibricky - GPLv2](https://pypi.org/project/pyinstaller/)
+- [pycodestyle - od Johann C. Rocholl - MIT](https://pypi.org/project/pycodestyle/)
