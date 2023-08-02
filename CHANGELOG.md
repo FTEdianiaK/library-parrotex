@@ -1,5 +1,6 @@
 ### v2.0
 - Fixed the program crashing when no internet connection was available (see Issue [#1](https://github.com/FTEdianiaK/library-parrotex/issues/1))
+- Fixed the ID being changed by every edit, not only when the location changes
 - CS: Translated file names into Czech as to avoid conflicts with the English version (see Issue [#2](https://github.com/FTEdianiaK/library-parrotex/issues/2))
 - CS: Fixed a slight error in translation from English
 - CS: Translated docstrings into Czech

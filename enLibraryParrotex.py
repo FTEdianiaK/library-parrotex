@@ -758,21 +758,22 @@ def edit(row: int) -> None:
                     err = ("Error: You can't change a location of"
                            + " a borrowed book.")
                 else:
-                    abbr = r[5][0]
+                    if r[5] != loc:
+                        abbr = r[5][0]
 
-                    try:
-                        int(abbr)
-                    except ValueError:
-                        pass
-                    else:
-                        err = "Error: Location can't begin with a number."
-                        continue
+                        try:
+                            int(abbr)
+                        except ValueError:
+                            pass
+                        else:
+                            err = "Error: Location can't begin with a number."
+                            continue
 
-                    if abbr not in IDS:
-                        IDS[abbr] = 0
+                        if abbr not in IDS:
+                            IDS[abbr] = 0
 
-                    IDS[abbr] += 1
-                    r[0] = abbr + str(IDS[abbr])
+                        IDS[abbr] += 1
+                        r[0] = abbr + str(IDS[abbr])
 
                     ROWS[row] = r
                     save("b")

@@ -1,4 +1,5 @@
-# Library Parrotex: A simple library index and card system.
+# Knižní Papouštéka: Jednoduchý program pro tvorbu
+#                    knihovní kartotéky a výpujčních listů.
 # Copyright (C) 2023 Foxie EdianiaK a.k.a. F_TEK
 
 # This program is free software: you can redistribute it and/or modify
@@ -759,21 +760,22 @@ def edit(row: int) -> None:
                 if r[5] != loc and r[6] != "K":
                     err = "Chyba: Nelze změnit lokaci vypůjčené knihy."
                 else:
-                    abbr = r[5][0]
+                    if r[5] != loc:
+                        abbr = r[5][0]
 
-                    try:
-                        int(abbr)
-                    except ValueError:
-                        pass
-                    else:
-                        err = "Chyba: Lokace nesmí začínat číslem."
-                        continue
+                        try:
+                            int(abbr)
+                        except ValueError:
+                            pass
+                        else:
+                            err = "Chyba: Lokace nesmí začínat číslem."
+                            continue
 
-                    if abbr not in IDS:
-                        IDS[abbr] = 0
+                        if abbr not in IDS:
+                            IDS[abbr] = 0
 
-                    IDS[abbr] += 1
-                    r[0] = abbr + str(IDS[abbr])
+                        IDS[abbr] += 1
+                        r[0] = abbr + str(IDS[abbr])
 
                     ROWS[row] = r
                     save("b")
