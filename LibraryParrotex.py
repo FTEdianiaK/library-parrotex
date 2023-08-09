@@ -223,7 +223,7 @@ CARDS = {}
 HELP = ""
 SORT = 0
 LAST_LOC = ""
-VERSION = "2.1"
+VERSION = "2.1.1"
 WINDOW = "m"
 CHANGED = True
 
@@ -903,6 +903,16 @@ def add() -> None:
                 save("b")
                 pWin.close()
                 err = LANG["aS"] + r["ID"]
+                _inISBN = ""
+                r = {
+                    "ID": "",
+                    "ISBN": "",
+                    "Author": "",
+                    "Title": "",
+                    "Genre": "",
+                    "Location": LAST_LOC,
+                    "State": LANG["fBS"][0]
+                }
             else:
                 err = LANG["err"] + " #A4: " + LANG["errA4"]
         else:

@@ -1,3 +1,6 @@
+### v2.1.1
+- Fixed book details staying in the Add window even after the book has been added successfully
+
 ### v2.1
 
 **Improvements:**

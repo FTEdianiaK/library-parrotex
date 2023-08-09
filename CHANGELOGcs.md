@@ -1,3 +1,6 @@
+### v2.1.1
+- Opraveno zůstávání údajů v Přidávacím okně i po úspěšném přidání knihy
+
 ### v2.1
 
 **Vylepšení:**
