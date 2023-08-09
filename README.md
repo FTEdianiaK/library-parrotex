@@ -2,9 +2,9 @@
 
 *A simple library index and card software.*
 
-![Software screenshot](en.png)
+![Software screenshot](APP.png)
 
-[Česká verze](https://github.com/FTEdianiaK/library-parrotex/blob/main/csREADME.md) | [Changelog](https://github.com/FTEdianiaK/library-parrotex/blob/main/CHANGELOG.md) | [License](https://github.com/FTEdianiaK/library-parrotex/blob/main/LICENSE)
+[Česká verze](https://github.com/FTEdianiaK/library-parrotex/blob/main/READMEcs.md) | [Changelog](https://github.com/FTEdianiaK/library-parrotex/blob/main/CHANGELOG.md) | [License](https://github.com/FTEdianiaK/library-parrotex/blob/main/LICENSE)
 
 ### Features
 - Grid view showing all the important book details that can be sorted by each.
@@ -30,15 +30,14 @@
 **Remove:** Use "unins000.exe" (if you used the .exe installer), afterwards delete the folder it's been installed in to delete the data files left behind by the software as well (books.csv, cards.json, ids.json, help.txt) unless you plan on keeping them.
 
 ### Known Bugs
-**[#3](https://github.com/FTEdianiaK/library-parrotex/issues/3)**: Some special characters may be entered incorrectly when typed using the keyboard. (e.g. ě -> ì)<br>
-Haven't found the reason for this happening yet and would be more than grateful for any help in fixing this issue.<br>
-**Temporary fix**: It seems that the specific characters can be entered by copying them from somewhere else and they're later processed correctly.
+- None yet...
+- Report them [here](https://github.com/FTEdianiaK/library-parrotex/issues).
 
 ### Credits
 [Parrot icon by Lorc from game-icons.net](https://game-icons.net/1x1/lorc/parrot-head.html)
 
 **Libraries used in the code:**
-- [operator, webbrowser, csv, datetime, json, re, time - from Python Standard Library - PSF](https://docs.python.org/3/library/index.html)
+- [operator, webbrowser, csv, datetime, json, re, time, math - from Python Standard Library - PSF](https://docs.python.org/3/library/index.html)
 - [isbnlib - by Alexandre Lima Conde - LGPLv3](https://pypi.org/project/isbnlib/)
 - [PySimpleGui - by PySimpleGui - LGPLv3+](https://pypi.org/project/PySimpleGUI/)
 - [requests - by Kenneth Reitz - Apache 2.0](https://pypi.org/project/requests/)

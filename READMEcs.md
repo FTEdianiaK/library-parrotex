@@ -2,9 +2,9 @@
 
 *Jednoduchý program pro tvorbu knihovní kartotéky a výpůjčních listů.*
 
-![Obrázek programu](cs.png)
+![Obrázek programu](APPcs.png)
 
-[English version](https://github.com/FTEdianiaK/library-parrotex/blob/main/README.md) | [Záznam změn](https://github.com/FTEdianiaK/library-parrotex/blob/main/csCHANGELOG.md) | [Licenční smlouva](https://github.com/FTEdianiaK/library-parrotex/blob/main/LICENSE)
+[English version](https://github.com/FTEdianiaK/library-parrotex/blob/main/README.md) | [Záznam změn](https://github.com/FTEdianiaK/library-parrotex/blob/main/CHANGELOGcs.md) | [Licenční smlouva](https://github.com/FTEdianiaK/library-parrotex/blob/main/LICENSE)
 
 ### Vlastnosti
 - Tabulka se všemi důležitými informacemi o knihách, kterou lze podle každé seřadit.
@@ -29,15 +29,14 @@
 **Smazat:** Použijte "unins000.exe" (pokud jste použili .exe průvodce instalací), poté smažte složku, ve které byl program naninstalován, abyste smazali i datové soubory zanechané programem (knihy.csv, karty.json, kody.json, pomoc.txt), pokud si je neplánujete nechat.
 
 ### Známé chyby
-**[#3](https://github.com/FTEdianiaK/library-parrotex/issues/3)**: Některé speciální znaky mohou být vloženy špatně když jsou napsány pomocí klávesnice. (např. ě -> ì)<br>
-Zatím jsem nepřišel na důvod, proč se toto děje a budu více než vděčný za jakoukoliv pomoc s opravením tohoto problému.<br>
-**Dočasné řešení**: Zdá se, že dané znaky lze zadat zkopírováním odjinud a ty jsou poté zpracovány správně.
+- Zatím žádné...
+- Hlašte je [zde](https://github.com/FTEdianiaK/library-parrotex/issues).
 
 ### Zdroje
 [Papouščí ikona od uživatele Lorc z game-icons.net](https://game-icons.net/1x1/lorc/parrot-head.html)
 
 **Použité knihovny v kódu:**
-- [operator, webbrowser, csv, datetime, json, re, time - ze Standardní Knihovny Python - PSF](https://docs.python.org/3/library/index.html)
+- [operator, webbrowser, csv, datetime, json, re, time, math - ze Standardní Knihovny Python - PSF](https://docs.python.org/3/library/index.html)
 - [isbnlib - od Alexandre Lima Conde - LGPLv3](https://pypi.org/project/isbnlib/)
 - [PySimpleGui - od PySimpleGui - LGPLv3+](https://pypi.org/project/PySimpleGUI/)
 - [requests - od Kenneth Reitz - Apache 2.0](https://pypi.org/project/requests/)
