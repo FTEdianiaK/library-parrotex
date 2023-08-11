@@ -223,7 +223,7 @@ CARDS = {}
 HELP = ""
 SORT = 0
 LAST_LOC = ""
-VERSION = "2.1.1"
+VERSION = "2.1.2"
 WINDOW = "m"
 CHANGED = True
 
@@ -363,13 +363,13 @@ def main() -> None:
         CHANGED = False
 
     if num == -1:
-        _start = 0
-        _end = len(ROWS)
-        _final = 0
+        start = 0
+        end = len(ROWS)
+        final = 0
     else:
-        _start = 0 + (num * page)
-        _end = num + (num * page)
-        _final = ceil(len(ROWS)/num)-1
+        start = 0 + (num * page)
+        end = num + (num * page)
+        final = ceil(len(ROWS)/num)-1
 
     mLO = [[sg.P(),
             sg.B("[" + LANG["m"] + "]"),
@@ -385,7 +385,7 @@ def main() -> None:
                   num,
                   k="Num",
                   enable_events=True)],
-           [sg.Table(values=ROWS[_start:_end],
+           [sg.Table(values=ROWS[start:end],
                      headings=FIELDS,
                      auto_size_columns=True,
                      max_col_width=30,
@@ -397,7 +397,7 @@ def main() -> None:
            [sg.B("<<", k="Start"),
             sg.B("<", k="Prev"),
             sg.P(),
-            sg.B("[" + str(page+1) + "/" + str(_final+1) + "]"),
+            sg.B("[" + str(page+1) + "/" + str(final+1) + "]"),
             sg.P(),
             sg.B(">", k="Next"),
             sg.B(">>", k="End")]]
@@ -438,15 +438,19 @@ def main() -> None:
         page = 0
     if mEv == "Prev" and page != 0:
         page -= 1
-    if mEv == "Next" and page != _final:
+    if mEv == "Next" and page != final:
         page += 1
     if mEv == "End":
-        page = _final
+        page = final
     if type(mEv) == tuple:
         if mEv[2][0] == -1 and mEv[2][1] != -1:
             SORT = mEv[2][1]
         elif mEv[2][0] is not None:
-            edit(mEv[2][0])
+            if num == -1:
+                edit(mEv[2][0])
+            else:
+                _row = mEv[2][0] + (num * page)
+                edit(_row)
 
 
 def save(files: str) -> None:
