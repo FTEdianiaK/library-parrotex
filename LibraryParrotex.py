@@ -186,7 +186,7 @@ LANGUAGES = {
     }
 
 
-# Language check and selector
+# Language check and selector (+ folder write check)
 try:
     with open("lang.txt", "x", encoding="utf-8") as f:
         LNG = ""
@@ -195,6 +195,16 @@ except FileExistsError:
     with open("lang.txt", "r", encoding="utf-8") as f:
         LNG = f.read()
         f.close()
+except PermissionError:
+    msg = LANGUAGES["cs"]["err"] + " #FP: " + LANGUAGES["cs"]["errFP"] + "\n"
+    + LANGUAGES["en"]["err"] + " #FP: " + LANGUAGES["en"]["errFP"]
+    pLO = [[sg.T(msg)],
+           [sg.P(),
+            sg.B("OK", k="OK")]]
+    title = msg[0:(msg.find(":"))]
+    pWin = sg.Window(title, pLO, icon=ICON)
+    pEv, pVal = pWin.read()
+    pWin.close()
 
 if LNG == "":
     lLO = [[sg.P(), sg.T("Jazyk / Language"), sg.P()],
@@ -263,13 +273,6 @@ def Loading() -> sg.Window:
     sleep(0.1)
     return pWin
 
-
-# Folder write check
-try:
-    with open("v", "w", encoding="utf-8") as f:
-        f.write(VERSION)
-except PermissionError:
-    Popups("e", LANG["err"] + " #FP: " + LANG["errFP"])
 
 # Creates necessary files on first launch
 try:
