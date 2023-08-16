@@ -1340,7 +1340,7 @@ spLO = [[sg.P(),
         [sg.P(),
          sg.Image(ICON),
          sg.P()],
-        [sg.T("v" + VERSION),
+        [sg.T(VERSION),
          sg.P(),
          sg.T(LANG["by"] + " F_TEK")]]
 spWin = sg.Window("",

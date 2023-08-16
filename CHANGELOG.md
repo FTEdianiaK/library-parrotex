@@ -1,3 +1,7 @@
+### v2.2.1
+- Changed version checking to use official GitHub API
+- As language file is the one to be created it now also serves as a folder write check
+
 ### v2.2
 - Made the part that gets rid of empty rows more logical
 - Got rid of retries, now if an error occurs while trying to reach any website the app doesn't try again, thus saving the website's bandwitch

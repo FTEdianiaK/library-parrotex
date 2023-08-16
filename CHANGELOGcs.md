@@ -1,3 +1,7 @@
+### v2.2.1
+- Kontrola aktualizace změněna, aby používala oficiální GitHub API
+- Jelikož jazykový soubor je první, který se vytvoří slouží nyní jako kontrola zápisu do složky
+
 ### v2.2
 - Část, která se zbavuje prázdných řádku byla předělána, aby fungovala logičtěji
 - Více pokusů bylo zrušeno, nyní pokud nastane chyba zatímco se program pokouší načíst stránku, tak se nepokusí znovu, čímž šetří zdroje dané stránky
