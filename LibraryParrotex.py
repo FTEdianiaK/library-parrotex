@@ -22,6 +22,7 @@ from csv import writer as cwrite
 from datetime import date
 from json import dump as jdump
 from json import load as jload
+from json import loads as jloads
 import isbnlib as isbn
 import PySimpleGUI as sg
 import requests
@@ -223,7 +224,7 @@ CARDS = {}
 HELP = ""
 SORT = 0
 LAST_LOC = ""
-VERSION = "2.2"
+VERSION = "v2.2.1"
 WINDOW = "m"
 CHANGED = True
 
@@ -1367,13 +1368,14 @@ spWin.close()
 
 # Update check
 try:
-    _ver = requests.get("https://raw.githubusercontent.com/"
-                        + "FTEdianiaK/library-parrotex/main/VERSION")
+    _ver = requests.get("https://api.github.com/repos/ftedianiak/"
+                        + "library-parrotex/releases")
 except requests.exceptions.ConnectionError:
     Popups("e", LANG["err"] + " #G: " + LANG["errG"])
 else:
     if _ver.status_code == 200:
-        if VERSION != _ver.text:
+        _chk = jloads(_ver.text)[0]["name"]
+        if VERSION != _chk:
             ans = Popups("yn", LANG["up"])
             if ans == "Yes":
                 webbrowser.open("https://github.com/FTEdianiaK/"
