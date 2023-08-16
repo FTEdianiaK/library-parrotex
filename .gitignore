@@ -225,3 +225,6 @@ $RECYCLE.BIN/
 
 # Inno setup
 inno/*
+
+# Batch files
+*.bat

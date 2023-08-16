@@ -29,8 +29,7 @@
 **Smazat:** Použijte "unins000.exe" (pokud jste použili .exe průvodce instalací), poté smažte složku, ve které byl program naninstalován, abyste smazali i datové soubory zanechané programem (knihy.csv, karty.json, kody.json, pomoc.txt), pokud si je neplánujete nechat.
 
 ### Známé chyby
-- Zatím žádné...
-- Hlašte je [zde](https://github.com/FTEdianiaK/library-parrotex/issues).
+- Zatím žádné... Hlašte je [zde](https://github.com/FTEdianiaK/library-parrotex/issues).
 
 ### Zdroje
 [Papouščí ikona od uživatele Lorc z game-icons.net](https://game-icons.net/1x1/lorc/parrot-head.html)

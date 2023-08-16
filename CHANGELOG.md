@@ -1,3 +1,8 @@
+### v2.2
+- Made the part that gets rid of empty rows more logical
+- Got rid of retries, now if an error occurs while trying to reach any website the app doesn't try again, thus saving the website's bandwitch
+- Added a short license splash screen, reminding users that the program comes without any warranty
+
 ### v2.1.2
 - Fixed Main window pages breaking the Edit window
 

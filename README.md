@@ -30,8 +30,7 @@
 **Remove:** Use "unins000.exe" (if you used the .exe installer), afterwards delete the folder it's been installed in to delete the data files left behind by the software as well (books.csv, cards.json, ids.json, help.txt) unless you plan on keeping them.
 
 ### Known Bugs
-- None yet...
-- Report them [here](https://github.com/FTEdianiaK/library-parrotex/issues).
+- None yet... Report them [here](https://github.com/FTEdianiaK/library-parrotex/issues).
 
 ### Credits
 [Parrot icon by Lorc from game-icons.net](https://game-icons.net/1x1/lorc/parrot-head.html)

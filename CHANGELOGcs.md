@@ -1,3 +1,8 @@
+### v2.2
+- Část, která se zbavuje prázdných řádku byla předělána, aby fungovala logičtěji
+- Více pokusů bylo zrušeno, nyní pokud nastane chyba zatímco se program pokouší načíst stránku, tak se nepokusí znovu, čímž šetří zdroje dané stránky
+- Přidána krátká úvodní obrazovky s licencí, která připomíná uživatelům, že program je vydáván s nulovou zárukou
+
 ### v2.1.2
 - Opraveno rozbité Upravovací okno novým stránkováním Hlavního okna
 

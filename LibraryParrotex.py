@@ -1,5 +1,5 @@
 # Library Parrotex: A simple library index and card system.
-# Copyright (C) 2023 Foxie EdianiaK a.k.a. F_TEK
+# Copyright (C) 2023  Foxie EdianiaK a.k.a. F_TEK
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -223,7 +223,7 @@ CARDS = {}
 HELP = ""
 SORT = 0
 LAST_LOC = ""
-VERSION = "2.1.2"
+VERSION = "2.2"
 WINDOW = "m"
 CHANGED = True
 
@@ -322,14 +322,9 @@ def load() -> None:
         _raw = cread(f)
         FIELDS = next(_raw)
         for _row in _raw:
-            ROWS.append(_row)
+            if _row != []:
+                ROWS.append(_row)
         f.close()
-
-    while True:
-        try:
-            ROWS.remove([])
-        except ValueError:
-            break
 
     with open((LANG["fI"] + ".json"), "r", encoding="utf-8") as f:
         IDS = jload(f)
@@ -758,22 +753,13 @@ def add() -> None:
         if isbn.is_isbn10(_inISBN) or isbn.is_isbn13(_inISBN):
             r["ISBN"] = _inISBN
 
-            _isbn_tries = 0
-            while _isbn_tries < 3:
-                try:
-                    _data = isbn.meta(_inISBN)
-                except isbn.dev._exceptions.ISBNLibURLError:
-                    _isbn_tries += 1
-                    sleep(0.5)
-                finally:
-                    _isbn_tries = 4
-
-            if _isbn_tries == 3:
+            try:
+                _data = isbn.meta(_inISBN)
+            except isbn.dev._exceptions.ISBNLibURLError:
                 pWin.close()
                 Popups("e", LANG["err"] + " #A1: " + LANG["errA1"])
                 pWin = Loading()
-
-            if _isbn_tries == 4:
+            finally:
                 try:
                     r["Title"] = _data["Title"]
                 except KeyError:
@@ -786,81 +772,73 @@ def add() -> None:
                 except KeyError:
                     pass
 
-            _a_tries = 0
             g = ""
             if LNG == "cs":
-                while _a_tries < 3:
-                    try:
-                        db = requests.get(url=("https://www.databazeknih.cz/"
-                                               + "search?q=" + _inISBN
-                                               + "&hledat="),
-                                          allow_redirects=True)
-                    except requests.exceptions.ConnectionError:
-                        _a_tries += 1
-                        sleep(0.5)
+                try:
+                    db = requests.get(url=("https://www.databazeknih.cz/"
+                                           + "search?q=" + _inISBN
+                                           + "&hledat="),
+                                      allow_redirects=True)
+                except requests.exceptions.ConnectionError:
+                    pWin.close()
+                    Popups("e", LANG["err"] + " #A2: " + LANG["errA2"])
+                    pWin = Loading()
+                else:
+                    if db.status_code == 200:
+                        db = db.text
+
+                        start = db.find("<h5 itemprop='genre'>") + 21
+                        end = start + db[start:].find("</h5>")
+                        db = db[start:end]
+                        db = db.replace("</a>, ", "\n")
+                        db = db.replace("</a>", "")
+                        db = re.split("<.*'>", db)
+
+                        db.pop(0)
+
+                        for i in db:
+                            g += i + "; "
+
+                        g = g[:-2]
+                        g = g.replace("\n", "")
+                        g = g.replace(",", ";")
                     else:
-                        if db.status_code == 200:
-                            db = db.text
-
-                            start = db.find("<h5 itemprop='genre'>") + 21
-                            end = start + db[start:].find("</h5>")
-                            db = db[start:end]
-                            db = db.replace("</a>, ", "\n")
-                            db = db.replace("</a>", "")
-                            db = re.split("<.*'>", db)
-
-                            db.pop(0)
-
-                            for i in db:
-                                g += i + "; "
-
-                            g = g[:-2]
-                            g = g.replace("\n", "")
-                            g = g.replace(",", ";")
-
-                            _a_tries = 4
-                        else:
-                            _a_tries += 1
-                            sleep(0.5)
+                        pWin.close()
+                        Popups("e", LANG["err"] + " #A2: " + LANG["errA2"])
+                        pWin = Loading()
             elif LNG == "en":
-                while _a_tries < 3:
-                    try:
-                        db = requests.get(url=("https://openlibrary.org/isbn/"
-                                               + _inISBN),
-                                          allow_redirects=True)
-                    except requests.exceptions.ConnectionError:
-                        _a_tries += 1
-                        sleep(0.5)
+                try:
+                    db = requests.get(url=("https://openlibrary.org/isbn/"
+                                           + _inISBN),
+                                      allow_redirects=True)
+                except requests.exceptions.ConnectionError:
+                    pWin.close()
+                    Popups("e", LANG["err"] + " #A2: " + LANG["errA2"])
+                    pWin = Loading()
+                else:
+                    if db.status_code == 200:
+                        db = db.text
+
+                        start = db.find("<h6>Subjects</h6>") + 18
+                        end = start + db[start:].find("</span>")
+                        db = db[start:end]
+                        db = db.replace("</a>,", "")
+                        db = db.replace("</a>", "")
+                        db = re.split(' *<.*">', db)
+
+                        db.pop(0)
+
+                        for i in db:
+                            g += i + "; "
+
+                        g = g[:-2]
+                        g = g.replace("&amp;", "&")
+                        g = g.replace("\n", "")
+                        g = g.replace(",", ";")
                     else:
-                        if db.status_code == 200:
-                            db = db.text
-
-                            start = db.find("<h6>Subjects</h6>") + 18
-                            end = start + db[start:].find("</span>")
-                            db = db[start:end]
-                            db = db.replace("</a>,", "")
-                            db = db.replace("</a>", "")
-                            db = re.split(' *<.*">', db)
-
-                            db.pop(0)
-
-                            for i in db:
-                                g += i + "; "
-
-                            g = g[:-2]
-                            g = g.replace("&amp;", "&")
-                            g = g.replace("\n", "")
-                            g = g.replace(",", ";")
-
-                            _a_tries = 4
-                        else:
-                            _a_tries += 1
-                            sleep(0.5)
-
-            if _a_tries == 3:
-                pWin.close()
-                Popups("e", LANG["err"] + " #A2: " + LANG["errA2"])
-                pWin = Loading()
+                        pWin.close()
+                        Popups("e", LANG["err"] + " #A2: " + LANG["errA2"])
+                        pWin = Loading()
 
             r["Genre"] = g
             pWin.close()
@@ -1370,30 +1348,38 @@ spWin = sg.Window("",
 spWin.read(1500)
 spWin.close()
 
+LICENSE = """Library Parrotex  Copyright (C) 2023  Foxie EdianiaK a.k.a. F_TEK
+- This program comes with ABSOLUTELY NO WARRANTY.
+- This is free software, and you are welcome to
+  redistribute it under certain conditions.
+- For more details refer to the attached README.txt file
+  or to the LICENSE file in the GitHub repository."""
+
+spLO = [[sg.T(LICENSE)]]
+spWin = sg.Window("",
+                  spLO,
+                  no_titlebar=True,
+                  disable_close=True,
+                  disable_minimize=True,
+                  keep_on_top=True)
+spWin.read(3000)
+spWin.close()
+
 # Update check
-_up_tries = 0
-while _up_tries < 3:
-    try:
-        _ver = requests.get("https://raw.githubusercontent.com/"
-                            + "FTEdianiaK/library-parrotex/main/VERSION")
-    except requests.exceptions.ConnectionError:
-        _up_tries += 1
-        sleep(0.5)
-    else:
-        if _ver.status_code == 200:
-            if VERSION != _ver.text:
-                ans = Popups("yn", LANG["up"])
-                if ans == "Yes":
-                    webbrowser.open("https://github.com/FTEdianiaK/"
-                                    + "library-parrotex/releases/latest")
-
-            _up_tries = 4
-        else:
-            _up_tries += 1
-            sleep(0.5)
-
-if _up_tries == 3:
+try:
+    _ver = requests.get("https://raw.githubusercontent.com/"
+                        + "FTEdianiaK/library-parrotex/main/VERSION")
+except requests.exceptions.ConnectionError:
     Popups("e", LANG["err"] + " #G: " + LANG["errG"])
+else:
+    if _ver.status_code == 200:
+        if VERSION != _ver.text:
+            ans = Popups("yn", LANG["up"])
+            if ans == "Yes":
+                webbrowser.open("https://github.com/FTEdianiaK/"
+                                + "library-parrotex/releases/latest")
+    else:
+        Popups("e", LANG["err"] + " #G: " + LANG["errG"])
 
 # Sets main GUI theme
 sg.theme("DarkGreen")
