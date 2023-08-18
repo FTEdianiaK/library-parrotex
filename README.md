@@ -4,7 +4,7 @@
 
 ![Software screenshot](APP.png)
 
-[Česká verze](https://github.com/FTEdianiaK/library-parrotex/blob/main/READMEcs.md) | [Changelog](https://github.com/FTEdianiaK/library-parrotex/blob/main/CHANGELOG.md) | [License](https://github.com/FTEdianiaK/library-parrotex/blob/main/LICENSE)
+[Česká Verze](https://github.com/FTEdianiaK/library-parrotex/blob/main/READMEcs.md) | [Changelog](https://github.com/FTEdianiaK/library-parrotex/blob/main/CHANGELOG.md) | [Full Changelog](https://github.com/FTEdianiaK/library-parrotex/compare/v2.2...v2.2.1) | [License](https://github.com/FTEdianiaK/library-parrotex/blob/main/LICENSE)
 
 ### Features
 - Grid view showing all the important book details that can be sorted by each.

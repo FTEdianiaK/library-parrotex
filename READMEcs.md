@@ -4,7 +4,7 @@
 
 ![Obrázek programu](APPcs.png)
 
-[English version](https://github.com/FTEdianiaK/library-parrotex/blob/main/README.md) | [Záznam změn](https://github.com/FTEdianiaK/library-parrotex/blob/main/CHANGELOGcs.md) | [Licenční smlouva](https://github.com/FTEdianiaK/library-parrotex/blob/main/LICENSE)
+[English Version](https://github.com/FTEdianiaK/library-parrotex/blob/main/README.md) | [Záznam Změn](https://github.com/FTEdianiaK/library-parrotex/blob/main/CHANGELOGcs.md) | [Přesný Záznam Změn](https://github.com/FTEdianiaK/library-parrotex/compare/v2.2...v2.2.1) | [Licenční Smlouva](https://github.com/FTEdianiaK/library-parrotex/blob/main/LICENSE)
 
 ### Vlastnosti
 - Tabulka se všemi důležitými informacemi o knihách, kterou lze podle každé seřadit.
