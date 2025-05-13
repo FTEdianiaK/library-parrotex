@@ -1,3 +1,5 @@
+## ***Deprecated since 06/30/2024, when PySimpleGUI, the library this project depended on, has shifted to an (at least for me) unusable commercial project.***
+
 # Library Parrotex
 
 *A simple library index and card software.*
